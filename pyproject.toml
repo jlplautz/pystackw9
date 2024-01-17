@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "pystackw9"
+version = "0.1.0"
+description = "Project based on Pythonando course named PTSTACKWEEK9"
+authors = ["Jorge Luiz Plautz <jorge.plautz@gmail.com>"]
+license = "GLPV3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0.1"
+pillow = "^10.2.0"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.12.2"
+blue = "^0.9.1"
+isort = "^5.13.2"
+pytest = "^7.4.4"
+pytest-cov = "^4.1.0"
+pytest-django = "^4.7.0"
+
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
+[tool.pytest.ini_options]
+python_files = [
+    "test*.py",
+    "*tests.py",
+]
+minversion = "6.0"
+addopts = "-ra -q -v"
+DJANGO_SETTINGS_MODULE = "study_async.settings"
+
+
+[tool.taskipy.tasks]
+lint = "blue --check --diff . && isort --check --diff ."
+# docs = "mkdocs serve"
+pre_test = "task lint"
+test = "pytest -s -x --cov=vitalab -vv"
+post_test = "coverage html"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
