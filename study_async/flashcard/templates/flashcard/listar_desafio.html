@@ -19,16 +19,22 @@
         <br>
         <div class="row">
             <div class="col-md">
-                <form action="}" method="GET">
+                <form action="{% url 'novo_flashcard' %}" method="GET">
                 <label for="">Categoria</label>
                 <select name="categoria" class="form-select">
-                   
+                    <option value="">Todas Cat...</option>
+                    {% for categoria in categorias %}
+                        <option value="{{categoria.id}}">{{categoria}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-md">
                 <label for="">Dificuldade</label>
                 <select name="dificuldade" class="form-select">
-                    
+                    <option value="">Todas Dif...</option>
+                    {% for dificuldade in dificuldades %}
+                       <option value="{{dificuldade.0}}">{{dificuldade.1}}</option>
+                    {% endfor %}                   
                 </select>
             </div>
             <div class="col-md">
