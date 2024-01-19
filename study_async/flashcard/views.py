@@ -64,8 +64,17 @@ def novo_flashcard(request):
 
 
 def deletar_flashcard(request, id):
-    # TODO: Fazer a validação de segurança => request.user
     flashcard = Flashcard.objects.get(id=id)
+
+    if not flashcard.user == request.user:
+        messages.add_message(
+            request,
+            constants.ERROR,
+            'Esse Flashcard não é seu',
+        )
+        return redirect('/flashcard/novo_desafios/')
+
+    Flashcard.objects.filter(user=request.user)
     flashcard.delete()
     messages.add_message(
         request, constants.SUCCESS, 'Flashcard deletado com sucesso!'
@@ -181,3 +190,40 @@ def responder_flashcard(request, id):
     flashcard_desafio.save()
 
     return redirect(f'/flashcard/desafio/{desafio_id}/')
+
+
+def relatorio(request, id):
+    desafio = Desafio.objects.get(id=id)
+
+    return render(request, 'relatorio.html', {'desafio': desafio})
+
+
+def relatorio(request, id):
+    desafio = Desafio.objects.get(id=id)
+
+    acertos = desafio.flashcards.filter(acertou=True).count()
+    erros = desafio.flashcards.filter(acertou=False).count()
+
+    dados = [acertos, erros]
+
+    categorias = desafio.categoria.all()
+    name_categoria = [i.nome for i in categorias]
+
+    dados2 = []
+    for categoria in categorias:
+        dados2.append(
+            desafio.flashcards.filter(flashcard__categoria=categoria)
+            .filter(acertou=True)
+            .count()
+        )
+
+    return render(
+        request,
+        'flashcard/relatorio.html',
+        {
+            'desafio': desafio,
+            'dados': dados,
+            'categorias': name_categoria,
+            'dados2': dados2,
+        },
+    )

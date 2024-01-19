@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'study_async.usuarios',
     'study_async.flashcard',
+    'study_async.apostilas',
 ]
 
 MIDDLEWARE = [
@@ -123,8 +124,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'study_async/templates/static'),)
 STATIC_ROOT = os.path.join('static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'study_async/media')
+MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
